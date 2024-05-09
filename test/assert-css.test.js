@@ -41,7 +41,7 @@ describe('assert-css', function () {
     it('should assert with custom value validator', function () {
       assert('body { margin: 0 1rem; }')
         .selector('body')
-        .includes('margin', (actual) => actual.includes('0'));
+        .includes('margin', (actual) => actual.includes('1rem'));
     });
   });
 
@@ -116,7 +116,7 @@ describe('assert-css', function () {
       assert('@media (max-width: 800px) { body { margin: 0 1rem; } }')
         .atRule('@media')
         .selector('body')
-        .includes('margin', (actual) => actual.includes('0'));
+        .includes('margin', (actual) => actual.includes('1rem'));
     });
   })
 });
