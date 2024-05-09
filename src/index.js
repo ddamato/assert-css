@@ -1,9 +1,8 @@
-import fs from 'fs/promises';
-import * as csstree from 'css-tree';
+import { parse } from 'css-tree';
 import { selector, atRule } from './chain.js';
 
 export default function assert (css) {
-  const ast = csstree.parse(css, {
+  const ast = parse(css, {
     parseRulePrelude: false,
     parseAtrulePrelude: false
   });

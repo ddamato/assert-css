@@ -1,29 +1,29 @@
-import * as csstree from 'css-tree';
+import { find, generate } from 'css-tree';
 
 function selectorIncludes(str, value) {
   // check for at-rule, then no value
-  const declarationAST = csstree.find(this, (node) => node?.type === 'Declaration' && node?.property === str);
+  const declarationAST = find(this, (node) => node?.type === 'Declaration' && node?.property === str);
   const results = {
     property: Boolean(declarationAST)
   };
 
   if (declarationAST && typeof value !== 'undefined') {
-    const valueAST = csstree.find(declarationAST, (node) => node?.type === 'Value');
-    results.value = csstree.generate(valueAST) === String(value);
+    const valueAST = find(declarationAST, (node) => node?.type === 'Value');
+    results.value = generate(valueAST) === String(value);
   }
 
   return results;
 }
 
 function atRuleIncludes(str) {
-  const atRuleAST = csstree.find(this, (node) => node?.type === 'Atrule' && node?.prelude?.value?.includes(str));
+  const atRuleAST = find(this, (node) => node?.type === 'Atrule' && node?.prelude?.value?.includes(str));
   return {
     atRule: Boolean(atRuleAST)
   }
 }
 
 export function selector(str) {
-  const rule = csstree.find(this, (node) => node.type === 'Rule' && node.prelude.value === str);
+  const rule = find(this, (node) => node.type === 'Rule' && node.prelude.value === str);
 
   return {
     exists: () => {
@@ -54,7 +54,7 @@ export function selector(str) {
 }
 
 export function atRule(str) {
-  const rule = csstree.find(this, (node) => node.type === 'Atrule' && `@${node.name}` === str);
+  const rule = find(this, (node) => node.type === 'Atrule' && `@${node.name}` === str);
   return {
     exists: () => {
       if (!Boolean(rule)) throw new Error(`Selector ${str} does not exist`);
