@@ -38,6 +38,14 @@
     "test",
     "testing"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ddamato/assert-css.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ddamato/assert-css/issues"
+  },
+  "homepage": "https://ddamato.github.io/assert-css",
   "author": "Donnie D'Amato <fauxserious@gmail.com>",
   "license": "ISC",
   "devDependencies": {
