@@ -75,8 +75,7 @@ export function atRule(str) {
       includes: (...args) => {
         const { atRule } = atRuleIncludes.call(rule, ...args);
         if (atRule) throw new Error(`At-rule ${str} does include ${args[0]}`);
-      },
-      selector: selector.bind(rule)
+      }
     }
   }
 }
