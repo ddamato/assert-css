@@ -29,6 +29,12 @@ The `.selector()` method has the following possible chains:
 - `.selector().includes(property, value)`, asserts that the property-value pair exists within the selector.
 - `.selector().not.includes(property, value)`, asserts that the property-value pair does not exist within the selector.
 
+The `value` within an `includes()` chain can be a custom validator function. This will pass in the resolved value as a string. Return `true` when a match is expected, false to throw an exception.
+
+```js
+assert('body { margin: 0 1rem }').selector('body').includes('margin', (actual) => actual.includes('1rem')); // true
+```
+
 The given selector must be accurate to the expectation within the CSS. In other words:
 
 ```js

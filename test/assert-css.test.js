@@ -37,6 +37,12 @@ describe('assert-css', function () {
         .selector('body')
         .not.includes('margin', 'auto');
     });
+
+    it('should assert with custom value validator', function () {
+      assert('body { margin: 0 1rem; }')
+        .selector('body')
+        .includes('margin', (actual) => actual.includes('0'));
+    });
   });
 
   describe('at-rule styles', function () {
@@ -104,6 +110,13 @@ describe('assert-css', function () {
         .atRule('@media')
         .selector('body')
         .not.includes('margin', 'auto');
+    });
+
+    it('should assert at-rule has selector with property and value validator', function () {
+      assert('@media (max-width: 800px) { body { margin: 0 1rem; } }')
+        .atRule('@media')
+        .selector('body')
+        .includes('margin', (actual) => actual.includes('0'));
     });
   })
 });

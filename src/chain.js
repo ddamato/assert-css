@@ -9,7 +9,11 @@ function selectorIncludes(str, value) {
 
   if (declarationAST && typeof value !== 'undefined') {
     const valueAST = find(declarationAST, (node) => node?.type === 'Value');
-    results.value = generate(valueAST) === String(value);
+    const valueStr = generate(valueAST);
+
+    results.value = typeof value === 'function'
+      ? value(valueStr)
+      : valueStr === String(value);
   }
 
   return results;
