@@ -1,6 +1,6 @@
 {
   "name": "assert-css",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Assert that CSS is constructed properly",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
