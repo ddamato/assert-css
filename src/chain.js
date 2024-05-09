@@ -61,7 +61,7 @@ export function atRule(str) {
   const rule = find(this, (node) => node.type === 'Atrule' && `@${node.name}` === str);
   return {
     exists: () => {
-      if (!Boolean(rule)) throw new Error(`Selector ${str} does not exist`);
+      if (!Boolean(rule)) throw new Error(`At-rule ${str} does not exist`);
     },
     includes: (...args) => {
       const { atRule } = atRuleIncludes.call(rule, ...args);
@@ -70,7 +70,7 @@ export function atRule(str) {
     selector: selector.bind(rule),
     not: {
       exists: () => {
-        if (Boolean(rule)) throw new Error(`Selector ${str} does exist`);
+        if (Boolean(rule)) throw new Error(`At-rule ${str} does exist`);
       },
       includes: (...args) => {
         const { atRule } = atRuleIncludes.call(rule, ...args);
