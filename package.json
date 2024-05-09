@@ -45,7 +45,7 @@
   "bugs": {
     "url": "https://github.com/ddamato/assert-css/issues"
   },
-  "homepage": "https://ddamato.github.io/assert-css",
+  "homepage": "https://github.com/ddamato/assert-css",
   "author": "Donnie D'Amato <fauxserious@gmail.com>",
   "license": "ISC",
   "devDependencies": {
