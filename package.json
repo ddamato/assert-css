@@ -1,12 +1,42 @@
 {
   "name": "assert-css",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.0.1",
+  "description": "Assert that CSS is constructed properly",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "type": "module",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "unbuild": {
+    "entries": [
+      "src/index"
+    ],
+    "clean": true,
+    "rollup": {
+      "emitCJS": true
+    }
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "unbuild",
+    "prepublishOnly": "npm test && npm run build",
+    "test": "mocha"
   },
   "keywords": [],
   "author": "Donnie D'Amato <fauxserious@gmail.com>",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "mocha": "^10.4.0",
+    "unbuild": "^2.0.0"
+  },
+  "dependencies": {
+    "css-tree": "^2.3.1"
+  }
 }
