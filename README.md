@@ -22,8 +22,8 @@ The project uses object chaining to complete assertions.
 
 The `.selector()` method has the following possible chains:
 
-- `.selector().exists`, asserts that the selector is within the CSS.
-- `.selector().not.exists`, asserts that the selector is not within the CSS.
+- `.selector().exists()`, asserts that the selector is within the CSS.
+- `.selector().not.exists()`, asserts that the selector is not within the CSS.
 - `.selector().includes(property)`, asserts that the given property exists within the selector.
 - `.selector().not.includes(property)`, asserts that the given property does not exist within the selector.
 - `.selector().includes(property, value)`, asserts that the property-value pair exists within the selector.
