@@ -1,7 +1,14 @@
 import { find, generate } from 'css-tree';
 
-function selectorMatcher(str, value) {
-  const declarationAst = find(this, (node) => node?.type === 'Declaration' && node?.property === str);
+/**
+ * Determines if match exists at property and/or value within declaration.
+ * 
+ * @param {String} property - Declaration property, ie. background-color. 
+ * @param {String|Function} [value] - Declaration value or matcher function, ie. #c0ffee.
+ * @returns {Object} { property: Boolean, value: null|Boolean } 
+ */
+function selectorMatcher(property, value) {
+  const declarationAst = find(this, (node) => node?.type === 'Declaration' && node?.property === property);
   const results = { property: Boolean(declarationAst) };
 
   if (results.property && typeof value !== 'undefined') {
@@ -18,6 +25,12 @@ function selectorMatcher(str, value) {
   return results;
 }
 
+/**
+ * Determines if match exists for value within at-rule.
+ * 
+ * @param {String|Function} value - Declaration value or matcher function, ie. (max-width: 800px).
+ * @returns {Object} { atRule: Boolean }
+ */
 function atRuleMatcher(value) {
   const atRuleAst = find(this, (node) => {
     if (node?.type !== 'Atrule' || !node?.prelude?.value) return;
@@ -28,6 +41,12 @@ function atRuleMatcher(value) {
   return { atRule: Boolean(atRuleAst) };
 }
 
+/**
+ * Creates object method chain for assertCSS().selector
+ * 
+ * @param {String} str - Selector string, ie., button.primary 
+ * @returns {Object} Object method chain
+ */
 export function selector(str) {
   const ruleAst = find(this, (node) => node.type === 'Rule' && node.prelude.value === str);
 
@@ -61,6 +80,12 @@ export function selector(str) {
   }
 }
 
+/**
+ * Creates object method chain for assertCSS().atRule
+ * 
+ * @param {String} str - At-rule string, ie., @font-face
+ * @returns {Object} Object method chain
+ */
 export function atRule(str) {
   const ruleAst = find(this, (node) => node.type === 'Atrule' && `@${node.name}` === str);
   return {
