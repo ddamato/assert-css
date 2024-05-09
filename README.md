@@ -32,9 +32,9 @@ The `.selector()` method has the following possible chains:
 The given selector must be accurate to the expectation within the CSS. In other words:
 
 ```js
-assert('body[data-theme] { margin: 0 }').selector('body').exists; // false
-assert('body[data-theme] { margin: 0 }').selector('body').not.exists; // true
-assert('body[data-theme] { margin: 0 }').selector('body[data-theme]').exists; // true
+assert('body[data-theme] { margin: 0 }').selector('body').exists(); // false
+assert('body[data-theme] { margin: 0 }').selector('body').not.exists(); // true
+assert('body[data-theme] { margin: 0 }').selector('body[data-theme]').exists(); // true
 ```
 
 Also, note that this will not dive into at-rules. To check for existence within an at-rule, use `.atRule()` with the appropriate chain.
