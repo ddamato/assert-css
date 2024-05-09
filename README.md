@@ -51,7 +51,7 @@ Also, note that this will not dive into at-rules. To check for existence within 
 
 Similar `.selector()` in that this checks against the current CSS at-rule and its possible values with some differences:
 
-- `.includes(string)`, completes a generic `String.includes()` against the current value. This is because various at-rule specifications do not have a repeatable construction. So `(max-width: 800px)` will match against `max-width`, `800` and `800px` as examples.
+- `.includes(value)`, completes a generic `String.includes()` against the current value. This is because various at-rule specifications do not have a repeatable construction. So `(max-width: 800px)` will match against `max-width`, `800` and `800px` as examples. You may provide a function here instead for custom matching.
 - `.selector()`, is chainable off of `.atRule()` to check for specific selectors within an at-rule with all expected chains further.
 
 See [tests](./test/assert-css.test.js) for possible example chains.

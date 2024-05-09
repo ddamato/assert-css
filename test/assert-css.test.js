@@ -70,6 +70,12 @@ describe('assert-css', function () {
         .not.includes('min-width: 700px');
     });
 
+    it('should assert at-rule uses custom value validator', function () {
+      assertCss('@media (max-width: 800px) { body { margin: 0; } }')
+        .atRule('@media')
+        .includes((actual) => actual.includes('800px'));
+    });
+
     it('should assert at-rule has selector', function () {
       assertCss('@media (max-width: 800px) { body { margin: 0; } }')
         .atRule('@media')
