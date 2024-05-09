@@ -1,5 +1,7 @@
 # assert-css
 
+[![npm version](https://img.shields.io/npm/v/assert-css.svg)](https://www.npmjs.com/package/assert-css)
+
 Assert that CSS is constructed properly.
 
 ## Usage
