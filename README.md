@@ -5,11 +5,11 @@ Assert that CSS is constructed properly.
 ## Usage
 
 ```js
-import assert from 'assert-css';
+import assertCss from 'assert-css';
 
 describe('CSS generation', function () {
   it('should have the expected CSS', function () {
-    assert('body { margin: 0; }').selector('body').includes('margin', 0);
+    assertCss('body { margin: 0; }').selector('body').includes('margin', 0);
   });
 });
 ```
@@ -32,7 +32,7 @@ The `.selector()` method has the following possible chains:
 The `value` within an `includes()` chain can be a custom validator function. This will pass in the resolved value as a string. Return `true` when a match is expected, false to throw an exception.
 
 ```js
-assert('body { margin: 0 1rem }')
+assertCss('body { margin: 0 1rem }')
   .selector('body')
   .includes('margin', (value) => value.includes('1rem')); // true
 ```
@@ -40,9 +40,9 @@ assert('body { margin: 0 1rem }')
 The given selector must be accurate to the expectation within the CSS. In other words:
 
 ```js
-assert('body[data-theme] { margin: 0 }').selector('body').exists(); // false
-assert('body[data-theme] { margin: 0 }').selector('body').not.exists(); // true
-assert('body[data-theme] { margin: 0 }').selector('body[data-theme]').exists(); // true
+assertCss('body[data-theme] { margin: 0 }').selector('body').exists(); // false
+assertCss('body[data-theme] { margin: 0 }').selector('body').not.exists(); // true
+assertCss('body[data-theme] { margin: 0 }').selector('body[data-theme]').exists(); // true
 ```
 
 Also, note that this will not dive into at-rules. To check for existence within an at-rule, use `.atRule()` with the appropriate chain.

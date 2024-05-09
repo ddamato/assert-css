@@ -1,40 +1,37 @@
 import { find, generate } from 'css-tree';
 
-function selectorIncludes(str, value) {
-  // check for at-rule, then no value
-  const declarationAST = find(this, (node) => node?.type === 'Declaration' && node?.property === str);
-  const results = {
-    property: Boolean(declarationAST)
-  };
+function selectorMatcher(str, value) {
+  const declarationAst = find(this, (node) => node?.type === 'Declaration' && node?.property === str);
+  const results = { property: Boolean(declarationAst) };
 
-  if (declarationAST && typeof value !== 'undefined') {
-    const valueAST = find(declarationAST, (node) => node?.type === 'Value');
-    const valueStr = generate(valueAST);
-
-    results.value = typeof value === 'function'
-      ? value(valueStr)
-      : valueStr === String(value);
+  if (results.property && typeof value !== 'undefined') {
+    const valueAst = find(declarationAst, (node) => node?.type === 'Value');
+    results.value = Boolean(valueAst);
+    if (results.value) {
+      const valueStr = generate(valueAst);
+      results.value = typeof value === 'function'
+        ? value(valueStr)
+        : valueStr === String(value);
+    }
   }
 
   return results;
 }
 
-function atRuleIncludes(str) {
-  const atRuleAST = find(this, (node) => node?.type === 'Atrule' && node?.prelude?.value?.includes(str));
-  return {
-    atRule: Boolean(atRuleAST)
-  }
+function atRuleMatcher(str) {
+  const atRuleAst = find(this, (node) => node?.type === 'Atrule' && node?.prelude?.value?.includes(str));
+  return { atRule: Boolean(atRuleAst) };
 }
 
 export function selector(str) {
-  const rule = find(this, (node) => node.type === 'Rule' && node.prelude.value === str);
+  const ruleAst = find(this, (node) => node.type === 'Rule' && node.prelude.value === str);
 
   return {
-    exists: () => {
-      if (!Boolean(rule)) throw new Error(`Selector ${str} does not exist`)
+    exists() {
+      if (!Boolean(ruleAst)) throw new Error(`Selector ${str} does not exist`)
     },
-    includes: (...args) => {
-      const { property, value } = selectorIncludes.call(rule, ...args);
+    includes(...args) {
+      const { property, value } = selectorMatcher.call(ruleAst, ...args);
       if (!property) {
         throw new Error(`Property '${args[0]}' not found in ${str}`)
       } else if (typeof value === 'boolean' && !value) {
@@ -42,11 +39,11 @@ export function selector(str) {
       }
     },
     not: {
-      exists: () => {
-        if (Boolean(rule)) throw new Error(`Selector ${str} does exist`)
+      exists() {
+        if (Boolean(ruleAst)) throw new Error(`Selector ${str} does exist`)
       },
-      includes: (...args) => {
-        const { property, value } = selectorIncludes.call(rule, ...args);
+      includes(...args) {
+        const { property, value } = selectorMatcher.call(ruleAst, ...args);
         if (typeof value !== 'boolean' && property) {
           throw new Error(`Property '${args[0]}' found in ${str}`);
         } else if (value) {
@@ -58,22 +55,22 @@ export function selector(str) {
 }
 
 export function atRule(str) {
-  const rule = find(this, (node) => node.type === 'Atrule' && `@${node.name}` === str);
+  const ruleAst = find(this, (node) => node.type === 'Atrule' && `@${node.name}` === str);
   return {
-    exists: () => {
-      if (!Boolean(rule)) throw new Error(`At-rule ${str} does not exist`);
+    exists() {
+      if (!Boolean(ruleAst)) throw new Error(`At-rule ${str} does not exist`);
     },
-    includes: (...args) => {
-      const { atRule } = atRuleIncludes.call(rule, ...args);
+    includes(...args) {
+      const { atRule } = atRuleMatcher.call(ruleAst, ...args);
       if (!atRule) throw new Error(`At-rule ${str} does not include ${args[0]}`);
     },
-    selector: selector.bind(rule),
+    selector: selector.bind(ruleAst),
     not: {
-      exists: () => {
-        if (Boolean(rule)) throw new Error(`At-rule ${str} does exist`);
+      exists() {
+        if (Boolean(ruleAst)) throw new Error(`At-rule ${str} does exist`);
       },
-      includes: (...args) => {
-        const { atRule } = atRuleIncludes.call(rule, ...args);
+      includes(...args) {
+        const { atRule } = atRuleMatcher.call(ruleAst, ...args);
         if (atRule) throw new Error(`At-rule ${str} does include ${args[0]}`);
       }
     }
