@@ -27,7 +27,8 @@
   "scripts": {
     "build": "unbuild",
     "prepublishOnly": "npm test && npm run build",
-    "test": "mocha"
+    "test": "mocha",
+    "version": "auto-changelog -p && git add CHANGELOG.md"
   },
   "keywords": [
     "assert",
@@ -40,6 +41,7 @@
   "author": "Donnie D'Amato <fauxserious@gmail.com>",
   "license": "ISC",
   "devDependencies": {
+    "auto-changelog": "^2.4.0",
     "mocha": "^10.4.0",
     "unbuild": "^2.0.0"
   },
